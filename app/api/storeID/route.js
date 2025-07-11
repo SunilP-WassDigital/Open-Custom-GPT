@@ -1,16 +1,20 @@
-import fsPromises from 'fs/promises';
-import path from 'path';
 import { NextResponse } from 'next/server'
-
-const dataFilePath = path.join(process.cwd(), 'db.json');
 
 export async function POST(request) {
     const req = await request.json()
-    const jsonData = await fsPromises.readFile(dataFilePath);
-    const objectData = JSON.parse(jsonData);
-    objectData.openAIKey = req.id
-    await fsPromises.writeFile(dataFilePath, JSON.stringify(objectData));
-    return NextResponse.json(objectData)
-  
+    
+    // NOTE: Environment variables are read-only at runtime
+    // You need to use a database for dynamic updates or set this as a static environment variable
+    
+    // TODO: Replace with your preferred solution
+    // Option 1: Make OpenAI key static (set OPENAI_KEY environment variable)
+    // Option 2: Use database for dynamic updates
+    // Option 3: Return current environment variable value
+    
+    return NextResponse.json({
+        "error": "Environment variables are read-only. OpenAI key should be set as OPENAI_KEY environment variable in Vercel.",
+        "current_openai_key": process.env.OPENAI_KEY || "",
+        "suggestion": "Set OPENAI_KEY as environment variable in Vercel dashboard"
+    }, { status: 501 })
 }
 
