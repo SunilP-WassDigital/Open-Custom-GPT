@@ -5,6 +5,19 @@ const nextConfig = {
 
         return config;
     },
+    async headers() {
+        return [
+            {
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'Content-Security-Policy',
+                        value: "script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' 'inline-speculation-rules' chrome-extension:; object-src 'none'; base-uri 'self';",
+                    },
+                ],
+            },
+        ];
+    },
 }
 
 module.exports = nextConfig
