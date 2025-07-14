@@ -1,7 +1,6 @@
 'use client'
 import Image from 'next/image'
 import { useState,useEffect } from "react"
-import OpenAI from 'openai';
 import Link from "next/link";
 import { useContext } from "react"
 import { KeyContext } from "../../../components/MainComponent"
@@ -136,6 +135,8 @@ export default function Create({params:{assistantId}}) {
   const fetchAssistant = async() => {
     const response = await fetch('/api?assistantId='+assistantId)
     const data = await response.json();
+    // Use dynamic import to avoid conflict with browser's native Audio
+    const { default: OpenAI } = await import('openai');
     let getOpenai = new OpenAI({apiKey:data.openAIKey, dangerouslyAllowBrowser: true})
     setOpenai(getOpenai)
     getKey.setKey(data.openAIKey)
